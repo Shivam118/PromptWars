@@ -1,0 +1,18 @@
+The Current Project is Initialized with NextJs Project, and our main goal is to create a project that improves the physical event experience for attendees at large-scale sporting venues. The system should address challenges such as crowd movement, waiting times, and real-time coordination, while ensuring a seamless and enjoyable experience.
+
+Key Requirements: 
+We're aiming for Millions of Users, Since we're using NextJs. We can use Server Side Rendering (SSR) and Static Site Generation (SSG) to optimize the performance, and React Best Practices to ensure a seamless and enjoyable experience.
+
+Use Best Practices of SEO to ensure that the website is easily discoverable by search engines, and Generative Engines, Updating AGENTS.md, Robots.txt, sitemap.xml with proper information and instructions with proper Schema as per page and maintaining the accessibility and performance.
+
+Use Minimal Graphics, and instead Use small Animations and transitions to make the website look premium and smooth.
+
+We're using Tailwind CSS for styling, and we're aiming for a modern and responsive design. 
+
+We're using TypeScript for type safety, and we're aiming for a type-safe codebase.
+
+Design is accordingly and the UI Should be smooth and premium, and should be very easy to use. 
+
+Currently We're not using any Database. Since the project is in its initial stages. But we're aiming to use a scalable and reliable database in the future. 
+
+For Now We're using LocalStorage to store the data, and dummy data to simulate the real-time data. 
