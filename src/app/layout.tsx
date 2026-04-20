@@ -1,17 +1,11 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import { EventProvider } from "@/store/EventContext";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import { Schema } from "@/components/Schema";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -21,7 +15,7 @@ export const metadata: Metadata = {
     template: "%s | MatchDay",
   },
   description: "Real-time insights on crowd movement, waiting times, and coordinate data for an optimized physical event experience.",
-  keywords: ["Sporting Event", "Crowd Density", "Wait Times", "Event Dashboard"],
+  keywords: ["Sporting Event", "Crowd Density", "Wait Times", "Event Dashboard", "Stadium Logistics"],
   authors: [{ name: "MatchDay Ops Team" }],
   publisher: "MatchDay Organization",
   robots: "index, follow",
@@ -29,6 +23,7 @@ export const metadata: Metadata = {
     title: "MatchDay | Event Coordination Platform",
     description: "Navigate the venue efficiently with real-time wait times and spatial insights.",
     type: "website",
+    url: "https://matchday-app-1048219509828.us-central1.run.app",
     locale: "en_US",
   },
 };
@@ -41,7 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
+      className={`${inter.variable} antialiased dark`}
     >
       <head>
         <Schema />

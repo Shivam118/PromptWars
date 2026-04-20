@@ -3,6 +3,7 @@
 import React from "react";
 import { useEventContext } from "@/store/EventContext";
 import { MetricCard } from "./MetricCard";
+import { VenueMap } from "./VenueMap";
 
 export const Dashboard = () => {
   const { zones, isLoading } = useEventContext();
@@ -51,6 +52,10 @@ export const Dashboard = () => {
           subtext="All systems operational"
         />
       </section>
+
+      <div className="mt-12">
+        <VenueMap />
+      </div>
 
       <section aria-labelledby="zone-breakdown-heading" className="mt-12">
         <h2 id="zone-breakdown-heading" className="mb-6 text-xl font-semibold text-white">Zone Breakdown</h2>
