@@ -16,15 +16,18 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   progress,
 }) => {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-white/5 bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:border-white/10">
-      <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-blue-500 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10" />
+    <article 
+      className="group relative overflow-hidden rounded-2xl border border-white/5 bg-white/5 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:border-white/10"
+      aria-labelledby={`metric-title-${title.replace(/\s+/g, '-').toLowerCase()}`}
+    >
+      <div className="absolute -right-20 -top-20 h-40 w-40 rounded-full bg-blue-500 opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10" aria-hidden="true" />
       
       <div className="relative z-10">
-        <p className="text-sm font-medium text-gray-400">{title}</p>
-        <div className="mt-2 flex items-baseline gap-2">
-          <h3 className="text-4xl font-bold tracking-tight text-white">
+        <h3 id={`metric-title-${title.replace(/\s+/g, '-').toLowerCase()}`} className="text-sm font-medium text-gray-400">{title}</h3>
+        <div className="mt-2 flex items-baseline gap-2" aria-live="polite">
+          <p className="text-4xl font-bold tracking-tight text-white">
             {metric}
-          </h3>
+          </p>
           {trend && (
             <span
               className={`text-sm font-medium ${
@@ -34,13 +37,14 @@ export const MetricCard: React.FC<MetricCardProps> = ({
                   ? "text-red-400"
                   : "text-gray-400"
               }`}
+              aria-label={`Trend is ${trend}`}
             >
               {trend === "down" ? "↓" : trend === "up" ? "↑" : "-"}
             </span>
           )}
         </div>
         {progress !== undefined && (
-          <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-gray-800">
+          <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-gray-800" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
             <div
               className={`h-full rounded-full transition-all duration-1000 ease-out ${
                 progress > 80
@@ -55,6 +59,6 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         )}
         {subtext && <p className="mt-4 text-xs text-gray-500">{subtext}</p>}
       </div>
-    </div>
+    </article>
   );
 };

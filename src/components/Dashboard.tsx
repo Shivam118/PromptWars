@@ -23,16 +23,16 @@ export const Dashboard = () => {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="mb-8">
+      <header className="mb-8">
         <h1 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
           Stadium Operations Overview
         </h1>
         <p className="mt-2 text-gray-400">
           Real-time metrics for crowd handling, zone saturation, and waiting times.
         </p>
-      </div>
+      </header>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <section aria-label="Key Metrics" className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <MetricCard
           title="Overall Venue Density"
           metric={`${avgDensity}%`}
@@ -50,33 +50,33 @@ export const Dashboard = () => {
           metric={zones.length}
           subtext="All systems operational"
         />
-      </div>
+      </section>
 
-      <div className="mt-12">
-        <h2 className="mb-6 text-xl font-semibold text-white">Zone Breakdown</h2>
+      <section aria-labelledby="zone-breakdown-heading" className="mt-12">
+        <h2 id="zone-breakdown-heading" className="mb-6 text-xl font-semibold text-white">Zone Breakdown</h2>
         <div className="overflow-hidden rounded-2xl border border-white/5 bg-white/5 backdrop-blur-sm">
-          <table className="min-w-full divide-y divide-white/5">
+          <table className="min-w-full divide-y divide-white/5" aria-label="Zone breakdown data table">
             <thead>
               <tr className="bg-black/20">
-                <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
+                <th scope="col" className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
                   Zone Name
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
+                <th scope="col" className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
                   Crowd Density
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
+                <th scope="col" className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
                   Est. Wait Time
                 </th>
-                <th className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
+                <th scope="col" className="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
                   Status
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-white/5" aria-live="polite">
               {zones.map((zone) => (
                 <tr
                   key={zone.id}
-                  className="transition-colors hover:bg-white/[0.02]"
+                  className="transition-colors hover:bg-white/5"
                 >
                   <td className="whitespace-nowrap px-6 py-4 text-sm font-medium text-white">
                     {zone.name}
@@ -86,7 +86,7 @@ export const Dashboard = () => {
                       <span className="text-sm text-gray-300">
                         {zone.crowdDensity}%
                       </span>
-                      <div className="h-1.5 w-16 overflow-hidden rounded-full bg-gray-800">
+                      <div className="h-1.5 w-16 overflow-hidden rounded-full bg-gray-800" role="progressbar" aria-valuenow={zone.crowdDensity} aria-valuemin={0} aria-valuemax={100}>
                         <div
                           className={`h-full rounded-full transition-all duration-1000 ${
                             zone.crowdDensity > 80
@@ -112,6 +112,7 @@ export const Dashboard = () => {
                           ? "bg-yellow-500/10 text-yellow-400"
                           : "bg-green-500/10 text-green-400"
                       }`}
+                      aria-label={`Status: ${zone.crowdDensity > 80 ? "Critical" : zone.crowdDensity > 50 ? "Moderate" : "Optimal"}`}
                     >
                       {zone.crowdDensity > 80
                         ? "Critical"
@@ -125,7 +126,7 @@ export const Dashboard = () => {
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </div>
   );
 };

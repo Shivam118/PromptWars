@@ -1,0 +1,56 @@
+name: Build and Deploy to Cloud Run
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  PROJECT_ID: 'encoded-bonfire-493910-h0'
+  REGION: 'us-central1'
+  SERVICE: 'matchday-app'
+
+jobs:
+  deploy:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Set up node modules
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Tests
+        run: npm test
+
+      # Authenticate to Google Cloud
+      # To secure this, you will need to configure Workload Identity Federation in GCP
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
+        with:
+          workload_identity_provider: 'projects/1048219509828/locations/global/workloadIdentityPools/github/providers/my-repo'
+          service_account: '1048219509828-compute@developer.gserviceaccount.com'
+
+      # Deploy using Google Cloud Buildpacks
+      - name: Deploy to Cloud Run
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: ${{ env.SERVICE }}
+          region: ${{ env.REGION }}
+          source: ./
+
+      # If required, show the URL in the actions output
+      - name: Show Output
+        run: echo ${{ steps.deploy.outputs.url }}

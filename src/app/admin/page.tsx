@@ -4,21 +4,35 @@ import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { useEventContext } from "@/store/EventContext";
 
+/**
+ * AdminDashboard Component
+ * 
+ * Provides venue managers with manual override controls for stadium zones.
+ * Polydirectionally updates the global EventContext.
+ * Also fetches real-time Google GenAI insights periodically.
+ */
 export default function AdminDashboard() {
+  // Global React Context bridging state directly to the main dashboard
   const { zones, updateZone, isLoading } = useEventContext();
+  
+  // Local state for the AI Assistant Panel
   const [insight, setInsight] = useState<string>("Analyzing current stadium load...");
   const [insightLoading, setInsightLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    // Prevent fetching if context hasn't hydrated or zones array is empty
     if (isLoading || zones.length === 0) return;
 
+    /**
+     * Executes the POST request against the local /api/insights wrapper.
+     */
     const fetchInsight = async () => {
       setInsightLoading(true);
       try {
         const response = await fetch("/api/insights", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ zones }),
+          body: JSON.stringify({ zones }), // Passing the live local state to the cloud function
         });
         const data = await response.json();
         setInsight(data.insight || "No actionable insights generated.");
@@ -29,9 +43,14 @@ export default function AdminDashboard() {
       }
     };
 
-    // Auto-fetch insight periodically
+    // Auto-fetch insight immediately on load
     fetchInsight();
+    
+    // Establishing a 30-second polling interval to continuously
+    // analyze the evolving crowd distribution. 
     const interval = setInterval(fetchInsight, 30000);
+    
+    // Strict Cleanup: Prevent memory leaks if the admin switches paths
     return () => clearInterval(interval);
   }, [zones, isLoading]);
 

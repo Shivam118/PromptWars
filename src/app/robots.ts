@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin/", "/analytics/"],
     },
-    sitemap: "https://matchday.example.com/sitemap.xml",
+    sitemap: "https://matchday-app-1048219509828.us-central1.run.app/sitemap.xml",
   };
 }

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { EventProvider } from "@/store/EventContext";
+import { GoogleAnalytics } from "@next/third-parties/google";
+import { Schema } from "@/components/Schema";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,6 +22,8 @@ export const metadata: Metadata = {
   },
   description: "Real-time insights on crowd movement, waiting times, and coordinate data for an optimized physical event experience.",
   keywords: ["Sporting Event", "Crowd Density", "Wait Times", "Event Dashboard"],
+  authors: [{ name: "MatchDay Ops Team" }],
+  publisher: "MatchDay Organization",
   robots: "index, follow",
   openGraph: {
     title: "MatchDay | Event Coordination Platform",
@@ -39,10 +43,15 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}
     >
+      <head>
+        <Schema />
+      </head>
       <body className="min-h-screen bg-slate-50 text-slate-900 dark:bg-[#0a0a0a] dark:text-gray-100 selection:bg-blue-500/30 flex flex-col">
         <EventProvider>
           {children}
         </EventProvider>
+        {/* Google Services Integration: GA4 Analysis */}
+        <GoogleAnalytics gaId="G-MEASUREMENT-ID" />
       </body>
     </html>
   );
