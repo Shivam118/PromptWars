@@ -27,32 +27,32 @@ describe("EventContext", () => {
     localStorage.clear();
   });
 
-  it("should initialize with default zones and render correctly", () => {
+  it("should initialize with default zones and render correctly", async () => {
     render(
       <EventProvider>
         <TestComponent />
       </EventProvider>
     );
 
-    // Initial loading might pass instantly depending on microtasks, so we check for the values
-    expect(screen.getByTestId("zone-count")).toHaveTextContent("5");
-    expect(screen.getByTestId("first-zone-name")).toHaveTextContent("Main Entrance");
+    // We use findByTestId to wait for the async 'isLoading' state to transition to false
+    expect(await screen.findByTestId("zone-count")).toHaveTextContent("5");
+    expect(await screen.findByTestId("first-zone-name")).toHaveTextContent("Main Entrance");
   });
 
-  it("should update zone data and persist to localStorage", () => {
+  it("should update zone data and persist to localStorage", async () => {
     render(
       <EventProvider>
         <TestComponent />
       </EventProvider>
     );
 
-    const updateBtn = screen.getByTestId("update-btn");
+    const updateBtn = await screen.findByTestId("update-btn");
     
     act(() => {
       updateBtn.click();
     });
 
-    expect(screen.getByTestId("first-zone-density")).toHaveTextContent("10");
+    expect(await screen.findByTestId("first-zone-density")).toHaveTextContent("10");
 
     // Verify localStorage
     const saved = JSON.parse(localStorage.getItem("event_zones") || "[]");
